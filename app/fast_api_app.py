@@ -34,9 +34,7 @@ setup_telemetry()
 _, project_id = google.auth.default()
 logging_client = google_cloud_logging.Client()
 logger = logging_client.logger(__name__)
-allow_origins = (
-    os.getenv("ALLOW_ORIGINS", "").split(",") if os.getenv("ALLOW_ORIGINS") else None
-)
+allow_origins = ["http://localhost:4000", "http://127.0.0.1:4000"]
 
 AGENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -98,21 +96,27 @@ class TriageRequest(BaseModel):
     email: str
 
 @app.post("/api/triage")
-def api_triage(req: TriageRequest):
+async def api_triage(req: TriageRequest):
     runner = app.state.runner
     content = types.Content(role="user", parts=[types.Part.from_text(text=req.email)])
     
     triage_result = None
     action_text = ""
     
-    # Run the workflow
-    events = list(runner.run(user_id="frontend", session_id="demo_session", new_message=content))
+    import uuid
+    session_id = uuid.uuid4().hex
     
-    for event in events:
-        if event.node_name == "prioritizer" and event.output:
-            triage_result = event.output
-        elif event.node_name.startswith("handle_") and event.output:
-            action_text = event.output
+    try:
+        # Run the workflow async
+        async for event in runner.run_async(user_id="frontend", session_id=session_id, new_message=content):
+            if event.node_name == "prioritizer" and event.output:
+                triage_result = event.output
+            elif event.node_name.startswith("handle_") and event.output:
+                action_text = event.output
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return {"error": f"AI Model Error: {str(e)}"}
             
     if not triage_result:
         return {"error": "Failed to triage email"}
@@ -135,6 +139,15 @@ def api_triage(req: TriageRequest):
     }
 
 
+
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4000", "http://127.0.0.1:4000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Main execution
 if __name__ == "__main__":

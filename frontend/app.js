@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         triageBtn.style.opacity = '0.7';
 
         try {
-            const response = await fetch('http://localhost:8085/api/triage', {
+            const response = await fetch('http://127.0.0.1:8000/api/triage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                throw new Error('API request failed');
+                const errorText = await response.text();
+                throw new Error(`Server Error ${response.status}: ${errorText}`);
             }
 
             const data = await response.json();
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Error calling AI agent:", error);
-            alert("Error connecting to the AI agent. Make sure agents-cli playground is running on port 8085!");
+            alert(`Error: ${error.message || "Error connecting to the AI agent. Make sure you are running 'uv run python app/fast_api_app.py'!"}`);
             loadingState.style.display = 'none';
         } finally {
             triageBtn.disabled = false;
