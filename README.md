@@ -1,19 +1,26 @@
-# email-triage-agent
+# AI Email Triage Agent 🚀
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `0.6.1`
+An autonomous AI agent built for the **Kaggle 5-Day AI Agents Intensive Course with Google**. 
+
+This project demonstrates a graph-based workflow (ReAct agent) that automatically analyzes incoming customer support emails, calculates a priority score, determines sentiment, and routes the email to the appropriate department.
+
+### ✨ Key Features
+- **Intelligent Routing**: Uses Google Gemini (Flash) to categorize emails into departments like Finance, Sales, Technical Support, and Customer Satisfaction.
+- **Priority Scoring System**: Calculates priority mathematically based on customer tier (Bronze to Platinum), issue severity, emotional sentiment, and escalation threats.
+- **Enterprise Security**: 
+  - **PII Redaction**: Pre-processes text using regex to scrub Credit Card numbers and SSNs before hitting the LLM.
+  - **Safety Guardrails**: Configured with strict Google Cloud `HarmBlockThreshold` settings to block hate speech, harassment, and dangerous content.
+  - **Prompt Injection Defense**: Explicit system-level instructions preventing malicious actors from hijacking the agent.
+- **Custom Dashboard**: Includes a sleek, modern CRM-inspired frontend (`frontend/index.html`) to showcase the agent's triage capabilities with glassmorphism UI.
 
 ## Project Structure
 
 ```
 email-triage-agent/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   ├── fast_api_app.py        # FastAPI Backend server
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
+├── app/         # Core agent logic and API
+├── frontend/    # Vanilla JS/CSS Dashboard UI
+├── tests/       # Evaluation datasets and unit tests
+└── artifacts/   # (Ignored) Trace logs and evaluation grading results
 ```
 
 > 💡 **Tip:** Use [Antigravity CLI](https://antigravity.google/) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
