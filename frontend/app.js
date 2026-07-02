@@ -26,49 +26,34 @@ document.addEventListener('DOMContentLoaded', () => {
         triageBtn.disabled = true;
         triageBtn.style.opacity = '0.7';
 
-        // ---------------------------------------------------------
-        // TODO: In the next iteration, we will replace this timeout 
-        // with a real fetch() to your FastAPI server running locally!
-        // e.g. fetch('http://localhost:8000/run_sse', { ... })
-        // ---------------------------------------------------------
-        setTimeout(() => {
-            // Mocking a response for the initial visual showcase
-            let mockData = {
-                department: 'finance',
-                priority_score: 15,
-                severity: 'low',
-                sentiment: 'neutral',
-                is_escalation: false,
-                action: 'Routed to finance queue. Priority: 15. Customer Tier: Bronze. Sender: unknown@example.com. Severity: low. Sentiment: neutral.'
-            };
+        try {
+            const response = await fetch('http://localhost:8085/api/triage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: emailContent })
+            });
 
-            // Dynamic logic just for the demo wow-factor
-            const textLower = emailContent.toLowerCase();
-            if (textLower.includes('lawyer') || textLower.includes('sue') || textLower.includes('unacceptable')) {
-                mockData = {
-                    department: 'customer_satisfaction',
-                    priority_score: 95,
-                    severity: 'high',
-                    sentiment: 'angry',
-                    is_escalation: true,
-                    action: '[ESCALATION] Routed to customer_satisfaction queue. Priority: 95. Customer Tier: Platinum. Sender: angry@example.com. Severity: high. Sentiment: angry.'
-                };
-            } else if (textLower.includes('broken') || textLower.includes('bug')) {
-                mockData.department = 'technical_issues';
-                mockData.severity = 'medium';
-                mockData.priority_score = 45;
-                mockData.action = 'Routed to technical_issues queue. Priority: 45. Customer Tier: Gold. Sender: customer@example.com. Severity: medium. Sentiment: neutral.';
+            if (!response.ok) {
+                throw new Error('API request failed');
             }
 
-            // Update UI
-            resDept.textContent = mockData.department.replace('_', ' ').toUpperCase();
-            resScore.textContent = mockData.priority_score;
-            resSeverity.textContent = mockData.severity.toUpperCase();
-            resSentiment.textContent = mockData.sentiment.toUpperCase();
-            resAction.textContent = mockData.action;
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
 
-            // Handle Escaltion Badge
-            if (mockData.is_escalation) {
+            // Update UI with REAL data from Gemini!
+            resDept.textContent = (data.department || '').replace('_', ' ').toUpperCase();
+            resScore.textContent = data.priority_score;
+            resSeverity.textContent = (data.severity || '').toUpperCase();
+            resSentiment.textContent = (data.sentiment || '').toUpperCase();
+            resAction.textContent = data.action;
+
+            // Handle Escalation Badge
+            if (data.is_escalation) {
                 escalationBadge.style.display = 'inline-block';
                 resScore.className = 'metric-value highlight-rose';
             } else {
@@ -79,9 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Hide loading, show results
             loadingState.style.display = 'none';
             resultsPanel.style.display = 'block';
+
+        } catch (error) {
+            console.error("Error calling AI agent:", error);
+            alert("Error connecting to the AI agent. Make sure agents-cli playground is running on port 8085!");
+            loadingState.style.display = 'none';
+        } finally {
             triageBtn.disabled = false;
             triageBtn.style.opacity = '1';
-
-        }, 1500); // Fake 1.5s latency to simulate AI processing
+        }
     });
 });

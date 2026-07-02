@@ -91,6 +91,51 @@ def collect_feedback(feedback: Feedback) -> dict[str, str]:
     return {"status": "success"}
 
 
+from pydantic import BaseModel
+from google.genai import types
+
+class TriageRequest(BaseModel):
+    email: str
+
+@app.post("/api/triage")
+def api_triage(req: TriageRequest):
+    runner = app.state.runner
+    content = types.Content(role="user", parts=[types.Part.from_text(text=req.email)])
+    
+    triage_result = None
+    action_text = ""
+    
+    # Run the workflow
+    events = list(runner.run(user_id="frontend", session_id="demo_session", new_message=content))
+    
+    for event in events:
+        if event.node_name == "prioritizer" and event.output:
+            triage_result = event.output
+        elif event.node_name.startswith("handle_") and event.output:
+            action_text = event.output
+            
+    if not triage_result:
+        return {"error": "Failed to triage email"}
+        
+    # Extract properties (handling both Pydantic models or dicts)
+    def get_val(obj, key, default):
+        if hasattr(obj, key):
+            return getattr(obj, key)
+        if isinstance(obj, dict):
+            return obj.get(key, default)
+        return default
+
+    return {
+        "department": get_val(triage_result, "department", ""),
+        "severity": get_val(triage_result, "severity", ""),
+        "priority_score": get_val(triage_result, "priority_score", 0),
+        "sentiment": get_val(triage_result, "sentiment", ""),
+        "is_escalation": get_val(triage_result, "is_escalation", False),
+        "action": action_text
+    }
+
+
+
 # Main execution
 if __name__ == "__main__":
     import uvicorn
