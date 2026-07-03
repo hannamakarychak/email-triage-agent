@@ -1,0 +1,334 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "case_1",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[FINANCE] Sender: vip@example.com\n\nI was double charged on my invoice #9923."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_2",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[FINANCE] Sender: normal@example.com\n\nCan I get a refund for my last month's payment?"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_3",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[FINANCE] Sender: angry@example.com\n\n[CHURN] If you don't fix this billing error immediately, I am cancelling my subscription!"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_4",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[FINANCE] Sender: test1@example.com\n\nMy credit card keeps getting rejected on your payment portal."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_5",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[FINANCE] Sender: test2@example.com\n\nPlease update my billing address to 123 Main St."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_6",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[FINANCE] Sender: vip@example.com\n\n[CHURN] I've been overcharged 3 times. I am leaving for your competitor."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_7",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SALES] Sender: lead@example.com\n\nWe need a quote for an Enterprise plan with 500 seats."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_8",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SALES] Sender: normal@example.com\n\nHow much does it cost to add 10 more users to our Silver tier?"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_9",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SALES] Sender: bigcorp@example.com\n\nWe are interested in a site license for our entire organization."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_10",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SALES] Sender: test3@example.com\n\nDo you offer discounts for non-profits?"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_11",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SALES] Sender: test4@example.com\n\nI want to speak to a sales representative about your new features."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_12",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SALES] Sender: lead2@example.com\n\nCan you send over the pricing sheet for your API?"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_13",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[TECH] Sender: dev@example.com\n\nThe API endpoint /v1/users is returning a 500 error."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_14",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[TECH] Sender: normal@example.com\n\nI can't log into my account, it says invalid password."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_15",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[TECH] Sender: angry@example.com\n\n[CHURN] Your app keeps crashing every time I open it! Fix this or I cancel."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_16",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[TECH] Sender: test5@example.com\n\nHow do I export my data to a CSV file?"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_17",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[TECH] Sender: vip@example.com\n\n[CHURN] Our production database has been down for 2 hours! Unacceptable, we are churning if this isn't fixed."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_18",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[TECH] Sender: test6@example.com\n\nThe UI is completely broken on Safari browser."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_19",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: happy@example.com\n\nJust wanted to say your support team is amazing!"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_20",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: angry@example.com\n\n[CHURN] Your customer service is terrible. I waited 3 weeks for a reply. I want out."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_21",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: normal@example.com\n\nI have some feedback about the new dashboard design."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_22",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: test7@example.com\n\nPlease forward this compliment to Sarah, she was very helpful."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_23",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: test8@example.com\n\nI hate the new update. Please change it back."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_24",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: vip@example.com\n\n[CHURN] I am extremely disappointed with the service lately. We are reviewing other vendors."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_25",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: test9@example.com\n\nThe onboarding process was very confusing."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_26",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: test10@example.com\n\nGreat product! Would recommend to my friends."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_27",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: test11@example.com\n\nYour documentation is out of date and caused me hours of headache."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_28",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: angry@example.com\n\n[CHURN] I demand to speak to a manager. This software is useless to me now."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_29",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: test12@example.com\n\nI love the new dark mode!"
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_30",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "[SATISFACTION] Sender: vip@example.com\n\nThank you for the quick resolution to my issue."
+          }
+        ]
+      }
+    }
+  ]
+}

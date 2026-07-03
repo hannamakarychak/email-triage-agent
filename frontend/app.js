@@ -53,13 +53,45 @@ document.addEventListener('DOMContentLoaded', () => {
             resSentiment.textContent = (data.sentiment || '').toUpperCase();
             resAction.textContent = data.action;
 
-            // Handle Escalation Badge
+            // Populate Support Agent Toolkit
+            const actionItemsList = document.getElementById('res-action-items');
+            actionItemsList.innerHTML = ''; // Clear previous
+            if (data.action_items && data.action_items.length > 0) {
+                data.action_items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    actionItemsList.appendChild(li);
+                });
+            } else {
+                actionItemsList.innerHTML = '<li>No specific actions required.</li>';
+            }
+
+            document.getElementById('res-draft').value = data.suggested_draft_response || "No draft generated.";
+            
+            // Handle Escalation & Churn Badges
             if (data.is_escalation) {
                 escalationBadge.style.display = 'inline-block';
                 resScore.className = 'metric-value highlight-rose';
             } else {
                 escalationBadge.style.display = 'none';
                 resScore.className = 'metric-value highlight-blue';
+            }
+            
+            // Webhook Simulation (Alerts Feed)
+            if (data.severity === 'high' && data.priority_score > 90) {
+                const alertsContainer = document.getElementById('alerts-container');
+                const emptyMsg = alertsContainer.querySelector('.empty-alerts');
+                if (emptyMsg) emptyMsg.remove();
+                
+                const alertCard = document.createElement('div');
+                alertCard.className = 'alert-card';
+                alertCard.innerHTML = `
+                    <div class="alert-title">🚨 URGENT TICKET</div>
+                    <div class="alert-detail"><strong>Sender:</strong> ${data.sender}</div>
+                    <div class="alert-detail"><strong>Dept:</strong> ${data.department}</div>
+                    <div class="alert-detail"><strong>Priority Score:</strong> ${data.priority_score}</div>
+                `;
+                alertsContainer.prepend(alertCard);
             }
 
             // Hide loading, show results

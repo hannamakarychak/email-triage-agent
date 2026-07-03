@@ -476,6 +476,7 @@ dependencies = [
     { name = "google-cloud-logging" },
     { name = "opentelemetry-instrumentation-google-genai" },
     { name = "python-multipart" },
+    { name = "requests" },
     { name = "sqlalchemy" },
     { name = "uvicorn" },
 ]
@@ -513,6 +514,7 @@ requires-dist = [
     { name = "google-cloud-logging", specifier = ">=3.12.0,<4.0.0" },
     { name = "opentelemetry-instrumentation-google-genai", specifier = ">=0.1.0,<1.0.0" },
     { name = "python-multipart", specifier = ">=0.0.20,<1.0.0" },
+    { name = "requests", specifier = ">=2.34.2" },
     { name = "ruff", marker = "extra == 'lint'", specifier = ">=0.4.6,<1.0.0" },
     { name = "sqlalchemy", specifier = ">=2,<3" },
     { name = "ty", marker = "extra == 'lint'", specifier = ">=0.0.1a0" },

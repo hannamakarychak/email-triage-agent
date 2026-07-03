@@ -135,6 +135,9 @@ async def api_triage(req: TriageRequest):
         "priority_score": get_val(triage_result, "priority_score", 0),
         "sentiment": get_val(triage_result, "sentiment", ""),
         "is_escalation": get_val(triage_result, "is_escalation", False),
+        "churn_risk": get_val(triage_result, "churn_risk", False),
+        "action_items": get_val(triage_result, "action_items", []),
+        "suggested_draft_response": get_val(triage_result, "suggested_draft_response", ""),
         "action": action_text
     }
 
