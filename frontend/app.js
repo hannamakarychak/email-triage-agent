@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resSentiment = document.getElementById('res-sentiment');
     const resAction = document.getElementById('res-action');
     const escalationBadge = document.getElementById('escalation-badge');
+    const approveDiscountBtn = document.getElementById('approve-discount-btn');
 
     triageBtn.addEventListener('click', async () => {
         const emailContent = emailInput.value.trim();
@@ -67,6 +68,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             document.getElementById('res-draft').value = data.suggested_draft_response || "No draft generated.";
+            
+            // Handle Discount Button
+            if (data.churn_risk) {
+                approveDiscountBtn.style.display = 'block';
+                approveDiscountBtn.textContent = 'Approve 20% Discount';
+                approveDiscountBtn.disabled = false;
+                approveDiscountBtn.style.opacity = '1';
+                
+                approveDiscountBtn.onclick = () => {
+                    const draftEl = document.getElementById('res-draft');
+                    draftEl.value += '\n\nAs a courtesy for this inconvenience, we have applied a 20% discount to your next billing cycle. We hope to keep you as a valued customer!';
+                    approveDiscountBtn.textContent = 'Discount Applied ✓';
+                    approveDiscountBtn.disabled = true;
+                    approveDiscountBtn.style.opacity = '0.5';
+                    approveDiscountBtn.onclick = null;
+                };
+            } else {
+                approveDiscountBtn.style.display = 'none';
+            }
             
             // Handle Escalation & Churn Badges
             if (data.is_escalation) {

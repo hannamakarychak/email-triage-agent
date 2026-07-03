@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <div class="app-container">
@@ -77,7 +77,10 @@
                                 <!-- Populated dynamically -->
                             </ul>
                             
-                            <h3 style="margin-top: 1.5rem;">✍️ Suggested Draft Response</h3>
+                            <h3 style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                                <span>✍️ Suggested Draft Response</span>
+                                <button id="approve-discount-btn" class="primary-btn" style="display: none; padding: 6px 12px; font-size: 12px; background-color: var(--rose);">Approve 20% Discount</button>
+                            </h3>
                             <div class="draft-response">
                                 <textarea id="res-draft" readonly rows="5"></textarea>
                                 <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('res-draft').value); this.innerText='Copied!'; setTimeout(() => this.innerText='Copy', 2000);">Copy</button>
@@ -113,6 +116,6 @@
         </main>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>

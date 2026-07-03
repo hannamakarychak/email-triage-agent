@@ -151,10 +151,13 @@ def prioritizer(node_input: EmailAnalysis) -> Event:
     # Escalation bump
     if node_input.is_escalation:
         priority_score += 50
-        
+
+    action_items = getattr(node_input, "action_items", [])
+    
     # Churn Risk bump
     if getattr(node_input, "churn_risk", False):
         priority_score += 100 # Huge bump to save the customer
+        action_items.insert(0, "🚨 [REQUIRES HUMAN APPROVAL] Offer 20% discount on next service to prevent churn.")
 
     result = TriageResult(
         sender=sender,
@@ -165,7 +168,7 @@ def prioritizer(node_input: EmailAnalysis) -> Event:
         sentiment=node_input.sentiment,
         is_escalation=node_input.is_escalation,
         churn_risk=getattr(node_input, "churn_risk", False),
-        action_items=getattr(node_input, "action_items", []),
+        action_items=action_items,
         suggested_draft_response=getattr(node_input, "suggested_draft_response", "")
     )
 
@@ -177,7 +180,7 @@ def create_handler(dept_name: str):
     def handler(node_input: TriageResult) -> Event:
         escalation_str = "[ESCALATION] " if node_input.is_escalation else ""
         msg = f"{escalation_str}Routed to {dept_name} queue. Priority: {node_input.priority_score}. Customer Tier: {node_input.tier}. Sender: {node_input.sender}. Severity: {node_input.severity}. Sentiment: {node_input.sentiment}."
-        
+
         return Event(
             output=msg,
             content=types.Content(role="model", parts=[types.Part.from_text(text=msg)]),

@@ -20,9 +20,12 @@ import google.auth
 from a2a.server.tasks import InMemoryTaskStore
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from google.adk.cli.fast_api import get_fast_api_app
 from google.adk.runners import Runner
 from google.cloud import logging as google_cloud_logging
+from google.genai import types
+from pydantic import BaseModel
 
 from app.app_utils import services
 from app.app_utils.a2a import attach_a2a_routes
@@ -89,9 +92,6 @@ def collect_feedback(feedback: Feedback) -> dict[str, str]:
     return {"status": "success"}
 
 
-from pydantic import BaseModel
-from google.genai import types
-
 class TriageRequest(BaseModel):
     email: str
 
@@ -99,13 +99,13 @@ class TriageRequest(BaseModel):
 async def api_triage(req: TriageRequest):
     runner = app.state.runner
     content = types.Content(role="user", parts=[types.Part.from_text(text=req.email)])
-    
+
     triage_result = None
     action_text = ""
-    
+
     import uuid
     session_id = uuid.uuid4().hex
-    
+
     try:
         # Run the workflow async
         async for event in runner.run_async(user_id="frontend", session_id=session_id, new_message=content):
@@ -116,11 +116,11 @@ async def api_triage(req: TriageRequest):
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return {"error": f"AI Model Error: {str(e)}"}
-            
+        return {"error": f"AI Model Error: {e!s}"}
+
     if not triage_result:
         return {"error": "Failed to triage email"}
-        
+
     # Extract properties (handling both Pydantic models or dicts)
     def get_val(obj, key, default):
         if hasattr(obj, key):
@@ -142,8 +142,6 @@ async def api_triage(req: TriageRequest):
     }
 
 
-
-from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:4000", "http://127.0.0.1:4000"],
