@@ -109,7 +109,7 @@ async def api_triage(req: TriageRequest):
     try:
         # Run the workflow async
         async for event in runner.run_async(user_id="frontend", session_id=session_id, new_message=content):
-            if event.node_name == "prioritizer" and event.output:
+            if event.node_name in ("prioritizer", "security_router") and event.output and type(event.output).__name__ == "TriageResult":
                 triage_result = event.output
             elif event.node_name.startswith("handle_") and event.output:
                 action_text = event.output
